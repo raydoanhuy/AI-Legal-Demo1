@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>LEGAL AI Dashboard</title>
+  <title>AMI Docx Uploader</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -19,277 +19,117 @@
       font-weight: 600;
       margin-bottom: 20px;
     }
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-    nav button {
-      background: transparent;
-      color: #5e564f;
-      border: 1px solid #5e564f;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-    }
-    nav button:hover {
-      background: #e0e0e0;
-    }
-    .tab {
-      display: none;
-    }
-    .tab.active {
-      display: block;
-      width: 100%;
-      max-width: 900px;
-    }
-    .chatbox {
-      margin-top: 30px;
-      padding: 15px;
-      background: #ffffff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+    .upload-container {
       display: flex;
       flex-direction: column;
       gap: 10px;
-    }
-    .chatbox input {
+      max-width: 600px;
       width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
     }
-    .chatbox button {
-      background: #5e564f;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 50%;
+    .upload-btn {
+      background: #8b4513; /* Màu nâu */
       color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .chat-history {
-      display: flex;
-      flex-direction: column-reverse;
-      gap: 10px;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-    .chat-entry {
-      background: #fff;
-      padding: 10px;
+      border: none;
+      padding: 10px 20px;
       border-radius: 5px;
-      border: 1px solid #ddd;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
     }
-    .chat-question {
-      font-weight: bold;
-      color: #5e564f;
+    .upload-btn:hover {
+      background: #a0522d;
     }
-    .chat-answer {
-      margin-top: 5px;
+    .upload-input {
+      display: none; /* Ẩn input file */
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    #downloadBtn {
+      display: none; /* Ẩn ban đầu */
+      background: #5e564f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
       margin-top: 20px;
-      background: white;
     }
-    th, td {
-      padding: 10px;
-      border: 1px solid #ccc;
-      text-align: left;
+    #downloadBtn:hover {
+      background: #736963;
     }
-    th {
-      background: #f0f0f0;
-    }
-    .risk-cao {
-      background-color: #ffd6d6;
-    }
-    .risk-trungbinh {
-      background-color: #fff5cc;
-    }
-    .risk-thap {
-      background-color: #ddffdd;
+    #status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #5e564f;
     }
   </style>
 </head>
 <body>
-  <h1>AMI AI DASHBOARD</h1>
-  <nav>
-    <button onclick="showTab('legal')">AI Pháp Lý</button>
-    <button onclick="showTab('investment')">AI Đầu Tư</button>
-    <button onclick="showTab('risk')">AI Cảnh Báo</button>
-  </nav>
-  <div id="tab-legal" class="tab active">
-    <h2>AI Pháp Lý</h2>
-    <p>Trò chuyện với chatbot pháp lý AMI hoặc xem dữ liệu pháp lý đã xử lý</p>
-    <div class="chatbox">
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <input id="legal-chat-input" type="text" placeholder="Nhập câu hỏi của bạn..." onkeydown="if(event.key==='Enter'){ askLegalBot(); }">
-        <button onclick="askLegalBot()">↑</button>
-      </div>
-      <button onclick="loadTrainingData()" style="background: #5e564f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Tải Dữ Liệu Pháp Lý</button>
-      <div id="legal-chat-response" class="chat-history"></div>
-    </div>
+  <h1>AMI Docx Uploader</h1>
+  <div class="upload-container">
+    <label class="upload-btn" for="file1">Upload Tài liệu 1</label>
+    <input id="file1" class="upload-input" type="file" accept=".docx" onchange="uploadFile(this, 1)">
+    <label class="upload-btn" for="file2">Upload Tài liệu 2</label>
+    <input id="file2" class="upload-input" type="file" accept=".docx" onchange="uploadFile(this, 2)">
+    <label class="upload-btn" for="file3">Upload Tài liệu 3</label>
+    <input id="file3" class="upload-input" type="file" accept=".docx" onchange="uploadFile(this, 3)">
+    <label class="upload-btn" for="file4">Upload Tài liệu 4</label>
+    <input id="file4" class="upload-input" type="file" accept=".docx" onchange="uploadFile(this, 4)">
+    <label class="upload-btn" for="file5">Upload Tài liệu 5</label>
+    <input id="file5" class="upload-input" type="file" accept=".docx" onchange="uploadFile(this, 5)">
   </div>
-  <div id="tab-investment" class="tab">
-    <h2>AI Quản Lý Đầu Tư</h2>
-    <p>Theo dõi dòng tiền giữa các pháp nhân và báo cáo AI cho từng dự án.</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Dự Án</th>
-          <th>Ngày COD</th>
-          <th>Nghiệm Thu</th>
-          <th>Giá FIT kỳ vọng</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Khánh Hòa - AMI</td>
-          <td>04/05/2019 / 26/06/2019</td>
-          <td>11/09/2019</td>
-          <td>FIT 1 (9,35 cent/kWh)</td>
-        </tr>
-        <tr>
-          <td>BT1 - AMI</td>
-          <td>26/10/2021</td>
-          <td>-</td>
-          <td>FIT 1</td>
-        </tr>
-        <tr>
-          <td>BMT - AMI</td>
-          <td>Sau COD</td>
-          <td>-</td>
-          <td>FIT 1</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div id="tab-risk" class="tab">
-    <h2>AI Cảnh Báo Rủi Ro</h2>
-    <p>Phát hiện chênh lệch nghiệm thu - COD hoặc thiếu giấy phép...</p>
-    <button onclick="loadLegalData()" style="background: #5e564f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Hiển thị kết quả phân tích pháp lý</button>
-    <table>
-      <thead>
-        <tr>
-          <th>Dự Án</th>
-          <th>Ngày COD</th>
-          <th>Nghiệm Thu</th>
-          <th>FIT</th>
-          <th>Nguy Cơ</th>
-          <th>Khuyến Nghị</th>
-        </tr>
-      </thead>
-      <tbody id="legal-data"></tbody>
-    </table>
-  </div>
+  <div id="status"></div>
+  <button id="downloadBtn" onclick="downloadResult()">Download training_data.txt</button>
 
   <script>
-    // Hiển thị tab
-    function showTab(id) {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      document.getElementById('tab-' + id).classList.add('active');
-    }
+    const GITHUB_TOKEN = "YOUR_TOKEN"; // Thay bằng Personal Access Token
+    const REPO = "YOUR_USERNAME/docx-cleaner"; // Thay bằng username/repo
 
-    // Chatbot pháp lý
-    function askLegalBot() {
-      const inputEl = document.getElementById("legal-chat-input");
-      const input = inputEl.value.trim();
-      const responseDiv = document.getElementById("legal-chat-response");
-      if (!input) return;
+    async function uploadFile(input, index) {
+      const file = input.files[0];
+      if (!file || !file.name.endsWith(".docx")) {
+        document.getElementById("status").textContent = `Tài liệu ${index}: Vui lòng chọn file .docx!`;
+        return;
+      }
 
-      const answer = "❗ Câu hỏi này cần tư vấn từ chuyên gia,<br>vui lòng đặt lịch tư vấn (500.000đ/30 phút)";
-
-      const entry = document.createElement("div");
-      entry.className = "chat-entry";
-      entry.innerHTML = `<div class="chat-question">❓ ${input}</div><div class="chat-answer">${answer}</div>`;
-      responseDiv.prepend(entry);
-      inputEl.value = "";
-      responseDiv.scrollTop = 0;
-    }
-
-    // Tải training_data.txt từ GitHub
-    async function loadTrainingData() {
-      const responseDiv = document.getElementById("legal-chat-response");
-      responseDiv.innerHTML = "<div class='chat-entry'>Đang tải dữ liệu...</div>";
+      document.getElementById("status").textContent = `Đang upload Tài liệu ${index}...`;
       try {
-        // Thay YOUR_USERNAME và YOUR_TOKEN
-        const response = await fetch("https://api.github.com/repos/YOUR_USERNAME/docx-cleaner/contents/training_data.txt", {
-          headers: {
-            "Authorization": "Bearer YOUR_TOKEN",
-            "Accept": "application/vnd.github.v3+json"
-          }
-        });
-        if (!response.ok) throw new Error("Không thể tải file!");
-        const data = await response.json();
-        const content = atob(data.content); // Giải mã base64
-        const messages = content.split("===").filter(msg => msg.trim());
-        responseDiv.innerHTML = "";
-        messages.forEach((msg, index) => {
-          const entry = document.createElement("div");
-          entry.className = "chat-entry";
-          entry.innerHTML = `<div class="chat-question">📜 Hợp đồng ${index + 1}</div><div class="chat-answer">${msg.trim().replace(/\n/g, "<br>")}</div>`;
-          responseDiv.prepend(entry);
-        });
-        responseDiv.scrollTop = 0;
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          const content = e.target.result.split(',')[1]; // Lấy base64
+          const response = await fetch(`https://api.github.com/repos/${REPO}/contents/legal_docs/${file.name}`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `Bearer ${GITHUB_TOKEN}`,
+              "Accept": "application/vnd.github.v3+json"
+            },
+            body: JSON.stringify({
+              message: `Upload ${file.name}`,
+              content: content,
+              branch: "main"
+            })
+          });
+          if (!response.ok) throw new Error("Upload thất bại!");
+          document.getElementById("status").textContent = `Tài liệu ${index} đã upload! Đang xử lý...`;
+          checkWorkflowStatus();
+        };
+        reader.readAsDataURL(file);
       } catch (error) {
-        responseDiv.innerHTML = `<div class='chat-entry'>Lỗi: ${error.message}</div>`;
+        document.getElementById("status").textContent = `Lỗi upload Tài liệu ${index}: ${error.message}`;
       }
     }
 
-    // Dữ liệu cảnh báo rủi ro
-    function loadLegalData() {
-      const projectsLegal = [
-        {
-          name: "Khánh Hòa - AMI",
-          cod: "26/06/2019",
-          acceptance: "11/09/2019",
-          fit: "FIT 1",
-          risk: "cao",
-          recommendation: "Cung cấp biên bản nộp hồ sơ từ tháng 7/2019 để chứng minh thiện chí tuân thủ trước Thông tư 10/2023."
-        },
-        {
-          name: "BT1 - AMI",
-          cod: "16/10/2021",
-          acceptance: "26/10/2021",
-          fit: "FIT 1",
-          risk: "trungbinh",
-          recommendation: "Cân nhắc dời ngày COD về sau nghiệm thu để hợp thức FIT 1 và giảm nguy cơ hồi tố."
-        },
-        {
-          name: "BMT - AMI",
-          cod: "Đang xác minh",
-          acceptance: "Sau COD",
-          fit: "FIT 1",
-          risk: "cao",
-          recommendation: "Bổ sung giấy phép hoạt động thủy lộ và lập luận về bản chất pháp lý quyền sử dụng đất."
-        }
-      ];
-
-      const tbody = document.getElementById("legal-data");
-      tbody.innerHTML = "";
-      projectsLegal.forEach(p => {
-        const row = document.createElement("tr");
-        row.className = `risk-${p.risk}`;
-        row.innerHTML = `
-          <td>${p.name}</td>
-          <td>${p.cod}</td>
-          <td>${p.acceptance}</td>
-          <td>${p.fit}</td>
-          <td>${p.risk.toUpperCase()}</td>
-          <td>${p.recommendation}</td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-
-    // Mở tab pháp lý mặc định
-    showTab('legal');
-  </script>
-</body>
-</html>
+    async function checkWorkflowStatus() {
+      try {
+        const response = await fetch(`https://api.github.com/repos/${REPO}/actions/runs`, {
+          headers: {
+            "Authorization": `Bearer ${GITHUB_TOKEN}`,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+        const data = await response.json();
+        const latestRun = data.workflow_runs.find(run => run.name === "Process Docx Files");
+        if (latestRun && latestRun.status === "completed" && latestRun.conclusion === "success") {
+          document.getElementById("downloadBtn").style.display = "block";
+          document.getElementById("status").textContent = "Xử lý hoàn tất! Nhấn Download để tải kết quả.";
+        } else {
+          setTimeout(checkWorkflowStatus,
