@@ -32,3 +32,7 @@ jobs:
         name: training-data
         path: training_data.txt
         if-no-files-found: error  # Thêm để báo lỗi nếu không tìm thấy file
+        git add .github/workflows/clean-docx.yml
+git commit -m "Force re-run with updated actions"
+git push
+
