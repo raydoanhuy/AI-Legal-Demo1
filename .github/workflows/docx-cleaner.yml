@@ -31,4 +31,4 @@ jobs:
       with:
         name: training-data
         path: training_data.txt
-        if-no-files-found: error  # Báo lỗi nếu không tìm thấy file
+        if-no-files-found: error  # Thêm để báo lỗi nếu không tìm thấy file
