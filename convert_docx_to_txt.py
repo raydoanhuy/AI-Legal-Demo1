@@ -32,6 +32,11 @@ def clean_text(text):
 # Danh sách để lưu nội dung tất cả file
 all_content = []
 
+# Kiểm tra thư mục tồn tại
+if not os.path.exists(input_folder):
+    print(f"Thư mục {input_folder} không tồn tại!")
+    exit(1)
+
 # Duyệt qua tất cả file trong thư mục
 for filename in os.listdir(input_folder):
     if filename.endswith(".docx"):
@@ -41,6 +46,11 @@ for filename in os.listdir(input_folder):
         if content:
             cleaned_content = clean_text(content)
             all_content.append(cleaned_content)
+
+# Kiểm tra nếu không có nội dung
+if not all_content:
+    print("Không tìm thấy file .docx nào để xử lý!")
+    exit(1)
 
 # Gộp tất cả nội dung vào một file lớn với ký tự phân cách "==="
 with open(output_file, "w", encoding="utf-8") as f:
