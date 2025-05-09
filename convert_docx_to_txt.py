@@ -3,7 +3,7 @@ import re
 from docx import Document
 
 # Đường dẫn đến thư mục chứa các file .docx
-input_folder = "C:/Users/phuong/Desktop/AI/legal_docs"  # Sửa lỗi ngoặc kép
+input_folder = "legal_docs"
 output_file = "training_data.txt"
 
 # Hàm để đọc nội dung từ file .docx
